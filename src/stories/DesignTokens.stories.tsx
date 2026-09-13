@@ -1,13 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import { PlaygroundHeader } from "./PlaygroundHeader";
+
 const colors = [
-  ["Background", "--codefox-color-background", "--codefox-color-foreground"],
-  ["Surface", "--codefox-color-surface", "--codefox-color-foreground"],
-  ["Primary", "--codefox-color-primary", "--codefox-color-primary-foreground"],
-  ["Secondary", "--codefox-color-secondary", "--codefox-color-secondary-foreground"],
-  ["Muted", "--codefox-color-muted", "--codefox-color-muted-foreground"],
-  ["Danger", "--codefox-color-danger", "--codefox-color-danger-foreground"],
-  ["Focus", "--codefox-color-focus", "--codefox-color-background"],
+  ["Background", "--cui-color-background", "--cui-color-foreground"],
+  ["Surface", "--cui-color-surface", "--cui-color-foreground"],
+  ["Primary", "--cui-color-primary", "--cui-color-primary-foreground"],
+  ["Secondary", "--cui-color-secondary", "--cui-color-secondary-foreground"],
+  ["Muted", "--cui-color-muted", "--cui-color-muted-foreground"],
+  ["Danger", "--cui-color-danger", "--cui-color-danger-foreground"],
+  ["Focus", "--cui-color-focus", "--cui-color-background"],
+] as const;
+
+const surfaceCombinations = [
+  ["Surface on background", "--cui-color-background", "--cui-color-surface"],
+  ["Secondary on background", "--cui-color-background", "--cui-color-secondary"],
+  ["Muted on background", "--cui-color-background", "--cui-color-muted"],
 ] as const;
 
 function DesignTokens() {
@@ -15,15 +23,17 @@ function DesignTokens() {
     <div
       style={{
         display: "grid",
-        gap: "var(--codefox-space-lg)",
+        gap: "var(--cui-space-lg)",
         minWidth: "min(52rem, 90vw)",
-        color: "var(--codefox-color-foreground)",
+        color: "var(--cui-color-foreground)",
         fontFamily: "system-ui, sans-serif",
       }}
     >
+      <PlaygroundHeader />
+
       <header>
         <h1 style={{ margin: 0 }}>Codefox default theme</h1>
-        <p style={{ color: "var(--codefox-color-muted-foreground)" }}>
+        <p style={{ color: "var(--cui-color-muted-foreground)" }}>
           A visual reference for the semantic tokens used by Codefox UI components.
         </p>
       </header>
@@ -33,7 +43,7 @@ function DesignTokens() {
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(11rem, 1fr))",
-          gap: "var(--codefox-space-md)",
+          gap: "var(--cui-space-md)",
         }}
       >
         {colors.map(([label, background, foreground]) => (
@@ -43,9 +53,9 @@ function DesignTokens() {
               display: "grid",
               alignContent: "end",
               minHeight: "8rem",
-              padding: "var(--codefox-space-md)",
-              border: "1px solid var(--codefox-color-border)",
-              borderRadius: "var(--codefox-radius-md)",
+              padding: "var(--cui-space-md)",
+              border: "1px solid var(--cui-color-border)",
+              borderRadius: "var(--cui-radius-md)",
               background: `var(${background})`,
               color: `var(${foreground})`,
             }}
@@ -56,9 +66,39 @@ function DesignTokens() {
         ))}
       </section>
 
+      <section aria-label="Common surface combinations">
+        <h2>Common surface combinations</h2>
+        <p style={{ color: "var(--cui-color-muted-foreground)" }}>
+          These combinations make low-contrast relationships visible before they reach a component.
+        </p>
+        <div style={{ display: "grid", gap: "var(--cui-space-md)" }}>
+          {surfaceCombinations.map(([label, outer, inner]) => (
+            <div
+              key={label}
+              style={{
+                padding: "var(--cui-space-lg)",
+                border: "1px solid var(--cui-color-border)",
+                borderRadius: "var(--cui-radius-md)",
+                background: `var(${outer})`,
+              }}
+            >
+              <div
+                style={{
+                  padding: "var(--cui-space-lg)",
+                  borderRadius: "var(--cui-radius-md)",
+                  background: `var(${inner})`,
+                }}
+              >
+                <strong>{label}</strong>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section aria-label="Spacing and radii">
         <h2>Spacing and radii</h2>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--codefox-space-md)" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--cui-space-md)" }}>
           {["sm", "md", "lg", "full"].map((radius) => (
             <div
               key={radius}
@@ -67,9 +107,9 @@ function DesignTokens() {
                 placeItems: "center",
                 width: "6rem",
                 height: "6rem",
-                border: "1px solid var(--codefox-color-border)",
-                borderRadius: `var(--codefox-radius-${radius})`,
-                background: "var(--codefox-color-secondary)",
+                border: "1px solid var(--cui-color-border)",
+                borderRadius: `var(--cui-radius-${radius})`,
+                background: "var(--cui-color-secondary)",
               }}
             >
               {radius}
