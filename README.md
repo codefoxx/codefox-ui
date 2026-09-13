@@ -62,6 +62,24 @@ The canonical custom-property names are also exported as the typed `themeTokens`
 
 The initial vocabulary intentionally stays small and covers semantic colors, spacing, and radii. New tokens should be added only when a concrete reusable component needs them.
 
+## Components
+
+### Button
+
+`Button` is the first stable primitive. It keeps styling internal while preserving native button attributes and accessibility behavior.
+
+```tsx
+import { Button } from "@codefoxpro/ui";
+
+<Button>Save</Button>
+<Button variant="secondary">Cancel</Button>
+<Button variant="danger">Delete</Button>
+<Button variant="outline">Details</Button>
+<Button variant="ghost">Dismiss</Button>
+```
+
+Supported variants are `primary`, `secondary`, `danger`, `outline`, and `ghost`. Supported sizes are `sm`, `md`, and `lg`. Buttons default to `type="button"`; opt into `type="submit"` explicitly when used to submit a form.
+
 ## Development
 
 Requires Node.js 22 or newer.
@@ -90,7 +108,7 @@ To verify the static Storybook build:
 npm run build-storybook
 ```
 
-Visual component and styling pull requests should be reviewed in Storybook before merge. The initial `Foundation/Design Tokens` story provides a visual reference until the first public component is added.
+Visual component and styling pull requests should be reviewed in Storybook before merge. The `Foundation/Design Tokens` story provides the theme reference, while component stories show real states and combinations.
 
 ## Repository structure
 

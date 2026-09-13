@@ -51,6 +51,18 @@ Do not silently contradict an accepted ADR. Call out the conflict and supersede 
 - Avoid exposing implementation-specific class names or styling technology as required consumer API.
 - Preserve upstream attribution and license requirements when adapting third-party source code.
 
+## Storybook
+
+Storybook is the visual review, interaction, and accessibility surface for components. Prefer Storybook-native capabilities over custom story infrastructure.
+
+- Use a static `Overview` story for visual comparison of variants, sizes, disabled states, surfaces, and other intentionally fixed states. The overview is for review, not for interaction through Controls.
+- Use a dedicated `Playground` story for one configurable component instance. Expose meaningful public props through Storybook Controls instead of creating one story per simple variant.
+- Use the Storybook Actions panel for observable callbacks such as `onClick`, `onOpenChange`, or `onSelect` rather than building custom event logging UI.
+- Use Storybook interaction tests / `play` functions for behavior such as click, keyboard activation, focus, disabled behavior, open/close flows, and focus management.
+- Use the Storybook Accessibility panel as part of reviewing every interactive component.
+- Add separate stories only when they represent a useful visual comparison, distinct state, or real interaction scenario. Do not duplicate simple variants that Controls already cover.
+- Consult the current Storybook documentation before introducing custom playground, actions, interaction, or accessibility mechanisms.
+
 ## Tests
 
 - Add focused tests for public behavior and accessibility-relevant interaction.
