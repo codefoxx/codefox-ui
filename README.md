@@ -74,16 +74,35 @@ npm test
 npm run build
 ```
 
+### Component playground
+
+Storybook is the local component playground and lightweight documentation surface.
+
+```bash
+npm run storybook
+```
+
+This starts Storybook on port `6006`. The Codefox default theme is loaded automatically, and the accessibility panel is available for story-level checks.
+
+To verify the static Storybook build:
+
+```bash
+npm run build-storybook
+```
+
+Visual component and styling pull requests should be reviewed in Storybook before merge. The initial `Foundation/Design Tokens` story provides a visual reference until the first public component is added.
+
 ## Repository structure
 
 ```text
-src/                 public library source
+.storybook/           Storybook configuration
+src/                 public library source and colocated stories
 tests/               package-level tests
 docs/adr/             architecture decision records
 .github/workflows/    continuous integration
 ```
 
-Stable public exports are added deliberately through `src/index.ts`.
+Stable public exports are added deliberately through `src/index.ts`. Storybook stories and playground-only helpers are not public package exports.
 
 ## Architecture
 
@@ -96,6 +115,7 @@ The initial architecture decisions are documented in [`docs/adr`](docs/adr/READM
 - styling is encapsulated behind Codefox UI components
 - semantic CSS custom properties provide the design-token boundary
 - the Codefox default theme is separate from the token contract and starts from the logo's orange family plus neutral surfaces
+- Storybook is the component playground and lightweight documentation surface
 
 See [`AGENTS.md`](AGENTS.md) for repository working rules and [`CONTRIBUTING.md`](CONTRIBUTING.md) for contribution guidance.
 
