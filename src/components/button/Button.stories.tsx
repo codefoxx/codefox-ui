@@ -4,6 +4,10 @@ import { expect, fn, userEvent, within } from "storybook/test";
 import { PlaygroundHeader } from "../../stories/PlaygroundHeader";
 import { Button } from "./Button";
 
+function DemoIcon() {
+  return <span aria-hidden="true">→</span>;
+}
+
 const meta = {
   title: "Primitives/Button",
   component: Button,
@@ -12,9 +16,17 @@ const meta = {
   },
   args: {
     children: "Button",
+    icon: <DemoIcon />,
     onClick: fn(),
   },
   argTypes: {
+    icon: {
+      control: false,
+    },
+    iconPosition: {
+      control: "select",
+      options: ["start", "end"],
+    },
     variant: {
       control: "select",
       options: ["primary", "secondary", "danger", "outline", "ghost"],
@@ -51,7 +63,7 @@ export const Overview: Story = {
       <section>
         <h1 style={{ margin: 0 }}>Button</h1>
         <p style={{ color: "var(--cui-color-muted-foreground)" }}>
-          A static visual reference for comparing variants, sizes, disabled states, and surfaces.
+          A static visual reference for comparing variants, sizes, disabled states, surfaces, and logical icon placement.
         </p>
       </section>
 
@@ -72,6 +84,20 @@ export const Overview: Story = {
           <Button size="sm">Small</Button>
           <Button size="md">Medium</Button>
           <Button size="lg">Large</Button>
+        </div>
+      </section>
+
+      <section aria-label="Button icons">
+        <h2>Icons and direction</h2>
+        <div style={{ display: "grid", gap: "var(--cui-space-md)" }}>
+          <div dir="ltr" style={{ display: "flex", flexWrap: "wrap", gap: "var(--cui-space-md)" }}>
+            <Button icon={<DemoIcon />}>LTR start</Button>
+            <Button icon={<DemoIcon />} iconPosition="end" variant="secondary">LTR end</Button>
+          </div>
+          <div dir="rtl" style={{ display: "flex", flexWrap: "wrap", gap: "var(--cui-space-md)" }}>
+            <Button icon={<DemoIcon />}>RTL start</Button>
+            <Button icon={<DemoIcon />} iconPosition="end" variant="secondary">RTL end</Button>
+          </div>
         </div>
       </section>
 

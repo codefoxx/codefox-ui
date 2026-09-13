@@ -35,6 +35,39 @@ describe("ButtonLink", () => {
     expect(screen.getByRole("link", { name: size }).getAttribute("data-size")).toBe(size);
   });
 
+  it("renders an icon at logical start by default", () => {
+    render(
+      <ButtonLink href="/docs" icon={<span data-testid="icon">icon</span>}>
+        Documentation
+      </ButtonLink>,
+    );
+
+    const link = screen.getByRole("link", { name: "Documentation" });
+    const icon = screen.getByTestId("icon").parentElement;
+    const label = link.querySelector(".cui-button__label");
+
+    expect(link.getAttribute("data-icon-position")).toBe("start");
+    expect(icon?.nextElementSibling).toBe(label);
+  });
+
+  it("renders an icon at logical end and inherits RTL direction", () => {
+    render(
+      <div dir="rtl">
+        <ButtonLink href="/docs" icon={<span data-testid="icon">icon</span>} iconPosition="end">
+          Documentation
+        </ButtonLink>
+      </div>,
+    );
+
+    const link = screen.getByRole("link", { name: "Documentation" });
+    const icon = screen.getByTestId("icon").parentElement;
+    const label = link.querySelector(".cui-button__label");
+
+    expect(link.getAttribute("data-icon-position")).toBe("end");
+    expect(label?.nextElementSibling).toBe(icon);
+    expect(link.closest("[dir]")?.getAttribute("dir")).toBe("rtl");
+  });
+
   it("forwards native anchor attributes", () => {
     render(
       <ButtonLink

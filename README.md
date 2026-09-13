@@ -80,6 +80,15 @@ import { Button } from "@codefoxpro/ui";
 
 Supported variants are `primary`, `secondary`, `danger`, `outline`, and `ghost`. Supported sizes are `sm`, `md`, and `lg`. Buttons default to `type="button"`; opt into `type="submit"` explicitly when used to submit a form.
 
+Buttons can also receive one controlled icon. Codefox UI owns icon placement, spacing, alignment, and sizing; consumers choose the icon content and its logical position.
+
+```tsx
+<Button icon={<SaveIcon />}>Save</Button>
+<Button icon={<ArrowIcon />} iconPosition="end">Continue</Button>
+```
+
+`iconPosition` accepts `start` or `end` and defaults to `start`. Logical positions follow the inherited document/application direction automatically, so an application can set `dir="ltr"` or `dir="rtl"` once at a higher level instead of configuring every control.
+
 ### ButtonLink
 
 Use `ButtonLink` for navigation that should share the Button visual language while preserving native anchor semantics.
@@ -94,7 +103,7 @@ import { ButtonLink } from "@codefoxpro/ui";
 </ButtonLink>
 ```
 
-Actions belong on `Button`; navigation belongs on `ButtonLink`. `ButtonLink` renders a real `<a>` and supports the same visual variants and sizes as `Button` while forwarding standard anchor attributes such as `target`, `rel`, and `download`.
+Actions belong on `Button`; navigation belongs on `ButtonLink`. `ButtonLink` renders a real `<a>` and supports the same visual variants, sizes, and controlled icon API as `Button` while forwarding standard anchor attributes such as `target`, `rel`, and `download`.
 
 ## Development
 
