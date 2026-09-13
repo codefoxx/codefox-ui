@@ -80,6 +80,22 @@ import { Button } from "@codefoxpro/ui";
 
 Supported variants are `primary`, `secondary`, `danger`, `outline`, and `ghost`. Supported sizes are `sm`, `md`, and `lg`. Buttons default to `type="button"`; opt into `type="submit"` explicitly when used to submit a form.
 
+### ButtonLink
+
+Use `ButtonLink` for navigation that should share the Button visual language while preserving native anchor semantics.
+
+```tsx
+import { ButtonLink } from "@codefoxpro/ui";
+
+<ButtonLink href="/meetups">View meetups</ButtonLink>
+<ButtonLink href="/settings" variant="secondary">Settings</ButtonLink>
+<ButtonLink href="https://example.com" target="_blank" rel="noreferrer">
+  External destination
+</ButtonLink>
+```
+
+Actions belong on `Button`; navigation belongs on `ButtonLink`. `ButtonLink` renders a real `<a>` and supports the same visual variants and sizes as `Button` while forwarding standard anchor attributes such as `target`, `rel`, and `download`.
+
 ## Development
 
 Requires Node.js 22 or newer.
