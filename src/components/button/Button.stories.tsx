@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect, fn, userEvent, within } from "storybook/test";
 
 import { PlaygroundHeader } from "../../stories/PlaygroundHeader";
 import { Button } from "./Button";
@@ -11,6 +12,7 @@ const meta = {
   },
   args: {
     children: "Button",
+    onClick: fn(),
   },
   argTypes: {
     variant: {
@@ -27,7 +29,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {
+export const Overview: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
     <div
       style={{
@@ -42,7 +47,7 @@ export const Playground: Story = {
       <section>
         <h1 style={{ margin: 0 }}>Button</h1>
         <p style={{ color: "var(--cui-color-muted-foreground)" }}>
-          The first Codefox UI primitive. Compare variants, sizes, focus, and disabled states here before the API is stabilized.
+          A static visual reference for comparing variants, sizes, disabled states, and surfaces.
         </p>
       </section>
 
@@ -114,24 +119,15 @@ export const Playground: Story = {
   ),
 };
 
-export const Primary: Story = {};
+export const Playground: Story = {
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole("button", { name: String(args.children) });
 
-export const Secondary: Story = {
-  args: { variant: "secondary" },
-};
+    button.focus();
+    await expect(button).toHaveFocus();
 
-export const Danger: Story = {
-  args: { variant: "danger" },
-};
-
-export const Outline: Story = {
-  args: { variant: "outline" },
-};
-
-export const Ghost: Story = {
-  args: { variant: "ghost" },
-};
-
-export const Disabled: Story = {
-  args: { disabled: true },
+    await userEvent.keyboard("{Enter}");
+    await expect(args.onClick).toHaveBeenCalledTimes(1);
+  },
 };
