@@ -1,0 +1,1 @@
+Logo assets used by the Storybook playground live in this directory.
