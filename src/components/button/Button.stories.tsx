@@ -23,6 +23,10 @@ const meta = {
       control: "select",
       options: ["sm", "md", "lg"],
     },
+    type: {
+      control: "select",
+      options: ["button", "submit", "reset"],
+    },
   },
 } satisfies Meta<typeof Button>;
 
