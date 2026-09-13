@@ -1,0 +1,76 @@
+.cui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: var(--cui-radius-md);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    filter 120ms ease,
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+.cui-button[data-size="sm"] {
+  min-height: 2rem;
+  padding: 0 var(--cui-space-sm);
+  font-size: 0.875rem;
+}
+
+.cui-button[data-size="md"] {
+  min-height: 2.5rem;
+  padding: 0 var(--cui-space-md);
+  font-size: 0.9375rem;
+}
+
+.cui-button[data-size="lg"] {
+  min-height: 3rem;
+  padding: 0 var(--cui-space-lg);
+  font-size: 1rem;
+}
+
+.cui-button[data-variant="primary"] {
+  background: var(--cui-color-primary);
+  color: var(--cui-color-primary-foreground);
+}
+
+.cui-button[data-variant="secondary"] {
+  background: var(--cui-color-secondary);
+  color: var(--cui-color-secondary-foreground);
+  border-color: var(--cui-color-border);
+}
+
+.cui-button[data-variant="danger"] {
+  background: var(--cui-color-danger);
+  color: var(--cui-color-danger-foreground);
+}
+
+.cui-button[data-variant="outline"] {
+  background: var(--cui-color-surface);
+  color: var(--cui-color-foreground);
+  border-color: var(--cui-color-border);
+}
+
+.cui-button[data-variant="ghost"] {
+  background: transparent;
+  color: var(--cui-color-foreground);
+}
+
+.cui-button:hover:not(:disabled) {
+  filter: brightness(0.96);
+}
+
+.cui-button:focus-visible {
+  outline: 3px solid var(--cui-color-focus);
+  outline-offset: 2px;
+}
+
+.cui-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
