@@ -4,6 +4,10 @@ import { expect, fn, userEvent, within } from "storybook/test";
 import { PlaygroundHeader } from "../../stories/PlaygroundHeader";
 import { ButtonLink } from "./ButtonLink";
 
+function DemoIcon() {
+  return <span aria-hidden="true">↗</span>;
+}
+
 const meta = {
   title: "Primitives/ButtonLink",
   component: ButtonLink,
@@ -11,9 +15,17 @@ const meta = {
   args: {
     children: "View meetups",
     href: "#meetups",
+    icon: <DemoIcon />,
     onClick: fn(),
   },
   argTypes: {
+    icon: {
+      control: false,
+    },
+    iconPosition: {
+      control: "select",
+      options: ["start", "end"],
+    },
     variant: {
       control: "select",
       options: ["primary", "secondary", "danger", "outline", "ghost"],
@@ -59,6 +71,19 @@ export const Overview: Story = {
           <ButtonLink href="#small" size="sm">Small</ButtonLink>
           <ButtonLink href="#medium" size="md">Medium</ButtonLink>
           <ButtonLink href="#large" size="lg">Large</ButtonLink>
+        </div>
+      </section>
+      <section aria-label="ButtonLink icons">
+        <h2>Icons and direction</h2>
+        <div style={{ display: "grid", gap: "var(--cui-space-md)" }}>
+          <div dir="ltr" style={{ display: "flex", flexWrap: "wrap", gap: "var(--cui-space-md)" }}>
+            <ButtonLink href="#ltr-start" icon={<DemoIcon />}>LTR start</ButtonLink>
+            <ButtonLink href="#ltr-end" icon={<DemoIcon />} iconPosition="end" variant="secondary">LTR end</ButtonLink>
+          </div>
+          <div dir="rtl" style={{ display: "flex", flexWrap: "wrap", gap: "var(--cui-space-md)" }}>
+            <ButtonLink href="#rtl-start" icon={<DemoIcon />}>RTL start</ButtonLink>
+            <ButtonLink href="#rtl-end" icon={<DemoIcon />} iconPosition="end" variant="secondary">RTL end</ButtonLink>
+          </div>
         </div>
       </section>
       <section aria-label="ButtonLink link attributes">

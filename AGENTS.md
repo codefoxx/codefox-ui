@@ -50,6 +50,8 @@ Do not silently contradict an accepted ADR. Call out the conflict and supersede 
 - Keep props typed and deliberately small.
 - Avoid exposing implementation-specific class names or styling technology as required consumer API.
 - Preserve upstream attribution and license requirements when adapting third-party source code.
+- Directional public APIs use logical values such as `start` and `end`, never physical values such as `left` and `right`. Components inherit the application/document `dir` setting instead of requiring direction on each control.
+- Use logical CSS properties such as `margin-inline-*`, `padding-inline-*`, `inline-size`, and `block-size` when direction or writing mode matters.
 
 ## CSS organization
 

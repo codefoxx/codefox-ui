@@ -34,6 +34,42 @@ describe("Button", () => {
     expect(screen.getByRole("button", { name: size }).getAttribute("data-size")).toBe(size);
   });
 
+  it("renders an icon at logical start by default", () => {
+    render(<Button icon={<span data-testid="icon">icon</span>}>Save</Button>);
+
+    const button = screen.getByRole("button", { name: "Save" });
+    const icon = screen.getByTestId("icon").parentElement;
+    const label = button.querySelector(".cui-button__label");
+
+    expect(button.getAttribute("data-icon-position")).toBe("start");
+    expect(icon?.nextElementSibling).toBe(label);
+  });
+
+  it("renders an icon at logical end when requested", () => {
+    render(
+      <div dir="rtl">
+        <Button icon={<span data-testid="icon">icon</span>} iconPosition="end">
+          Continue
+        </Button>
+      </div>,
+    );
+
+    const button = screen.getByRole("button", { name: "Continue" });
+    const icon = screen.getByTestId("icon").parentElement;
+    const label = button.querySelector(".cui-button__label");
+
+    expect(button.getAttribute("data-icon-position")).toBe("end");
+    expect(label?.nextElementSibling).toBe(icon);
+    expect(button.closest("[dir]")?.getAttribute("dir")).toBe("rtl");
+  });
+
+  it("keeps the icon decorative when visible text provides the accessible name", () => {
+    render(<Button icon={<span>decorative icon</span>}>Save</Button>);
+
+    expect(screen.getByRole("button", { name: "Save" })).toBeTruthy();
+    expect(screen.queryByRole("button", { name: /decorative icon/i })).toBeNull();
+  });
+
   it("forwards native button attributes", () => {
     render(<Button aria-label="Create meetup" name="action" value="create" />);
 

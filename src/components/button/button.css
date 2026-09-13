@@ -17,6 +17,24 @@
     color 120ms ease;
 }
 
+.cui-button[data-icon-position] {
+  gap: var(--cui-space-sm);
+}
+
+.cui-button__icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1em;
+  block-size: 1em;
+}
+
+.cui-button__icon svg {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
 .cui-button[data-size="sm"] {
   min-height: 2rem;
   padding: 0 var(--cui-space-sm);
