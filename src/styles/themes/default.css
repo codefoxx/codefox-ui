@@ -1,11 +1,11 @@
 :root {
-  --codefox-color-background: #ffffff;
+  --codefox-color-background: #fffaf5;
   --codefox-color-foreground: #1a1a1a;
   --codefox-color-surface: #ffffff;
   --codefox-color-primary: #f7951e;
   --codefox-color-primary-foreground: #1a1a1a;
-  --codefox-color-secondary: #f3f4f6;
-  --codefox-color-secondary-foreground: #1a1a1a;
+  --codefox-color-secondary: #fff0dc;
+  --codefox-color-secondary-foreground: #5c2d00;
   --codefox-color-muted: #f3f4f6;
   --codefox-color-muted-foreground: #6b7280;
   --codefox-color-danger: #dc2626;
