@@ -51,6 +51,17 @@ Do not silently contradict an accepted ADR. Call out the conflict and supersede 
 - Avoid exposing implementation-specific class names or styling technology as required consumer API.
 - Preserve upstream attribution and license requirements when adapting third-party source code.
 
+## CSS organization
+
+- Keep component styles colocated with the component or subcomponent that owns them.
+- Split CSS along meaningful component boundaries before a file becomes a catch-all stylesheet. Prefer several focused files over one large component or theme stylesheet.
+- Theme files such as `default.css` define theme values and semantic tokens; they must not become a dumping ground for unrelated component rules.
+- Keep global CSS intentionally small and limited to concerns that are genuinely global.
+- Introduce shared CSS helpers only after concrete reuse exists. Do not centralize styles merely to reduce file count.
+- Prefer semantic `--cui-*` design tokens to duplicated literal values where an appropriate token exists.
+- Plain CSS is the default styling source format for now. CSS custom properties already provide the theming boundary we need.
+- Do not introduce Sass, Less, Stylus, PostCSS-specific authoring features, or another CSS preprocessor just for convenience. Add a preprocessor only when a concrete recurring need cannot be expressed cleanly with the current approach, and document that tooling decision in an ADR.
+
 ## Storybook
 
 Storybook is the visual review, interaction, and accessibility surface for components. Prefer Storybook-native capabilities over custom story infrastructure.
