@@ -1,4 +1,4 @@
-import codefoxLogo from "../assets/codefox-logo.png";
+import { codefoxLogoData } from "../assets/codefox-logo.data";
 
 export function PlaygroundHeader() {
   return (
@@ -11,7 +11,7 @@ export function PlaygroundHeader() {
         borderBottom: "1px solid var(--cui-color-border)",
       }}
     >
-      <img src={codefoxLogo} alt="Codefox" width={44} height={50} />
+      <img src={codefoxLogoData} alt="Codefox" width={44} height={50} />
       <div>
         <div style={{ fontSize: "1.35rem", fontWeight: 700, lineHeight: 1.1 }}>Codefox UI</div>
         <div style={{ marginTop: "0.25rem", color: "var(--cui-color-muted-foreground)" }}>
