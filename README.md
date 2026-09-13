@@ -48,13 +48,13 @@ Codefox UI uses semantic CSS custom properties as its theming boundary. Componen
 
 The semantic token contract is separate from the concrete default theme. The default theme keeps surfaces and text neutral while deriving its primary color from the orange family of the Codefox logo. Because Codefox UI is pre-1.0, concrete theme values may still be refined after reviewing real components together in the component playground.
 
-Applications may override the defaults with standard CSS:
+Applications may override the defaults with standard CSS. Token names use the short `--cui-` namespace (`cui` = Codefox UI) to avoid collisions with application-owned variables without making component styles unnecessarily repetitive:
 
 ```css
 :root {
-  --codefox-color-primary: #f7951e;
-  --codefox-color-primary-foreground: #1a1a1a;
-  --codefox-radius-md: 0.625rem;
+  --cui-color-primary: #f7951e;
+  --cui-color-primary-foreground: #1a1a1a;
+  --cui-radius-md: 0.625rem;
 }
 ```
 
