@@ -42,16 +42,18 @@ Import the Codefox UI stylesheet once in the consuming application:
 import "@codefoxpro/ui/styles.css";
 ```
 
-## Design tokens
+## Design tokens and default theme
 
 Codefox UI uses semantic CSS custom properties as its theming boundary. Components consume concepts such as `primary`, `danger`, `border`, and `focus` instead of depending on Tailwind-specific names or arbitrary values.
 
-The package ships default values. Applications may override them with standard CSS:
+The semantic token contract is separate from the concrete default theme. The default theme keeps surfaces and text neutral while deriving its primary color from the orange family of the Codefox logo. Because Codefox UI is pre-1.0, concrete theme values may still be refined after reviewing real components together in the component playground.
+
+Applications may override the defaults with standard CSS:
 
 ```css
 :root {
-  --codefox-color-primary: #1d4ed8;
-  --codefox-color-primary-foreground: #ffffff;
+  --codefox-color-primary: #f7951e;
+  --codefox-color-primary-foreground: #1a1a1a;
   --codefox-radius-md: 0.625rem;
 }
 ```
@@ -93,6 +95,7 @@ The initial architecture decisions are documented in [`docs/adr`](docs/adr/READM
 - application-specific components stay in consuming applications
 - styling is encapsulated behind Codefox UI components
 - semantic CSS custom properties provide the design-token boundary
+- the Codefox default theme is separate from the token contract and starts from the logo's orange family plus neutral surfaces
 
 See [`AGENTS.md`](AGENTS.md) for repository working rules and [`CONTRIBUTING.md`](CONTRIBUTING.md) for contribution guidance.
 
