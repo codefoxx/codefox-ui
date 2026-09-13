@@ -22,7 +22,7 @@ The initial token vocabulary covers:
 - a small spacing scale
 - a small radius scale
 
-Token names use the `--codefox-` prefix. A typed `themeTokens` map exposes the canonical custom-property names for code that needs to reference a token without repeating string literals.
+Token names use the `--cui-` prefix (`cui` = Codefox UI). This is short enough to keep component styles readable while still separating library-owned variables from application-owned CSS custom properties. A typed `themeTokens` map exposes the canonical custom-property names for code that needs to reference a token without repeating string literals.
 
 Codefox UI ships a default theme separately from the token contract. The default theme uses neutral surfaces and text, with the primary color derived from the orange family of the Codefox logo. Exact pre-1.0 theme values remain intentionally adjustable as real components are reviewed together in the component playground.
 
