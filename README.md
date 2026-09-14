@@ -105,6 +105,31 @@ import { ButtonLink } from "@codefoxpro/ui";
 
 Actions belong on `Button`; navigation belongs on `ButtonLink`. `ButtonLink` renders a real `<a>` and supports the same visual variants, sizes, and controlled icon API as `Button` while forwarding standard anchor attributes such as `target`, `rel`, and `download`.
 
+### ActionBar
+
+`ActionBar` arranges reusable action controls while keeping grouping, separators, logical direction, and responsive layout inside Codefox UI. Individual React controls and one level of action groups can be mixed in the same bar.
+
+```tsx
+import { ActionBar, Button, ButtonLink, type ActionBarItem } from "@codefoxpro/ui";
+
+const actions = [
+  <Button key="edit" variant="ghost">Edit</Button>,
+  <ButtonLink key="details" href="/details" variant="outline">Details</ButtonLink>,
+  {
+    type: "group",
+    separator: true,
+    items: [
+      <Button key="duplicate" variant="secondary">Duplicate</Button>,
+      <Button key="delete" variant="danger">Delete</Button>,
+    ],
+  },
+] satisfies readonly ActionBarItem[];
+
+<ActionBar items={actions} />;
+```
+
+A group is a valid `ActionBar` item, but groups cannot contain other groups. `separator: true` inserts a Codefox UI-owned separator only between group actions. The bar inherits `dir="ltr"` / `dir="rtl"` from its surroundings and uses component-width responsiveness rather than viewport-only media queries. `ActionBar` is a layout primitive, not an ARIA `toolbar`; the contained controls keep their own native semantics.
+
 ## Development
 
 Requires Node.js 22 or newer.
