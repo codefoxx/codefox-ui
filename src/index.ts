@@ -1,5 +1,13 @@
 import "./styles/index.css";
 
+export {
+  Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardActions,
+} from "./components/card/Card";
+export type {
+  CardProps, CardHeaderProps, CardTitleProps, CardDescriptionProps,
+  CardContentProps, CardFooterProps, CardActionsProps,
+} from "./components/card/Card";
+
 export { ActionBar } from "./components/action-bar/ActionBar";
 export type {
   ActionBarAction,
