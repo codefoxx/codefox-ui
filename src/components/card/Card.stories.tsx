@@ -23,7 +23,7 @@ type DemoProps = {
 
 function Demo({ dir, width, actions, header, content, footer, title, description }: DemoProps) {
   return (
-    <div dir={dir} style={{ inlineSize: `${width}rem`, maxInlineSize: "100%" }}>
+    <div dir={dir} style={{ inlineSize: `${width}rem`, maxInlineSize: "100%", fontFamily: "system-ui, sans-serif" }}>
       <Card>
         {header && <CardHeader>
           <div>
@@ -85,7 +85,7 @@ export const Overview: Story = {
           </div>
         </section>
       ))}
-      <section aria-label="Optional sections">
+      <section aria-label="Optional sections" style={{ display: "grid", gap: "var(--cui-space-lg)" }}>
         <h2>Optional sections and unwrapped header text</h2>
         <Card>
           <CardHeader>
