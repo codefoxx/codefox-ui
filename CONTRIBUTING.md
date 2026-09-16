@@ -12,11 +12,10 @@ Codefox UI is intentionally small. Contributions should keep the library focused
 
 ```bash
 npm install
-npm run lint
-npm run typecheck
-npm test
-npm run build
+npm run validate
 ```
+
+`npm run validate` runs lint, typecheck, tests, the package build, and the static Storybook build.
 
 Use a focused feature branch and open a pull request against `main`.
 
@@ -25,6 +24,10 @@ Use a focused feature branch and open a pull request against `main`.
 Every new export becomes part of the compatibility surface of `@codefoxpro/ui`. Prefer a small API that can grow later over a speculative API that must be supported indefinitely.
 
 Breaking changes require an explicit issue and rationale. During the pre-1.0 phase they may still happen, but they should never be accidental.
+
+## Releases
+
+Releases are prepared through pull requests and published from GitHub Releases; do not run `npm publish` from a workstation as part of the normal release path. See [`docs/releasing.md`](docs/releasing.md) for versioning, release-candidate, npm dist-tag, bootstrap, and trusted-publishing instructions.
 
 ## Architecture
 
