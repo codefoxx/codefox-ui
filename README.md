@@ -2,13 +2,13 @@
 
 Reusable React UI primitives and patterns for Codefox projects.
 
-The public npm package is planned as:
+The public npm package is:
 
 ```text
 @codefoxpro/ui
 ```
 
-> Codefox UI is currently pre-1.0 and under active bootstrap. The package will be published after the initial library and release foundations are in place.
+> Codefox UI is currently pre-1.0 and under active development. Release candidates are published through the npm `next` dist-tag before they are promoted to an ordinary release.
 
 ## Goals
 
@@ -28,10 +28,16 @@ Codefox UI is not a home for application-specific feature components or business
 
 ## Installation
 
-Once the first public release is available:
+Install the current ordinary release with:
 
 ```bash
 npm install @codefoxpro/ui
+```
+
+To test the current release candidate explicitly:
+
+```bash
+npm install @codefoxpro/ui@next
 ```
 
 React and React DOM are peer dependencies and are supplied by the consuming application.
@@ -199,11 +205,10 @@ Requires Node.js 22 or newer.
 
 ```bash
 npm install
-npm run lint
-npm run typecheck
-npm test
-npm run build
+npm run validate
 ```
+
+`npm run validate` runs lint, typecheck, tests, the package build, and the static Storybook build.
 
 ### Component playground
 
@@ -215,13 +220,21 @@ npm run storybook
 
 This starts Storybook on port `6006`. The Codefox default theme is loaded automatically, and the accessibility panel is available for story-level checks.
 
-To verify the static Storybook build:
+To verify the static Storybook build directly:
 
 ```bash
 npm run build-storybook
 ```
 
 Visual component and styling pull requests should be reviewed in Storybook before merge. The `Foundation/Design Tokens` story provides the theme reference, while component stories show real states and combinations.
+
+## Releases
+
+Codefox UI uses Semantic Versioning with explicit release candidates such as `0.1.0-rc.1`. Release candidates publish to npm `next`; ordinary releases publish to `latest`.
+
+Publishing is performed by GitHub Actions from a GitHub Release whose `v<version>` tag matches `package.json` and whose commit is contained in `main`. The workflow reruns the complete validation suite before npm publication and uses npm trusted publishing/OIDC after the one-time package bootstrap.
+
+See [`docs/releasing.md`](docs/releasing.md) for the release procedure and [`ADR-0009`](docs/adr/0009-use-semver-release-candidates-and-trusted-publishing.md) for the decision.
 
 ## Repository structure
 
@@ -230,7 +243,7 @@ Visual component and styling pull requests should be reviewed in Storybook befor
 src/                 public library source and colocated stories
 tests/               package-level tests
 docs/adr/             architecture decision records
-.github/workflows/    continuous integration
+.github/workflows/    continuous integration and release automation
 ```
 
 Stable public exports are added deliberately through `src/index.ts`. Storybook stories and playground-only helpers are not public package exports.
@@ -247,6 +260,7 @@ The initial architecture decisions are documented in [`docs/adr`](docs/adr/READM
 - semantic CSS custom properties provide the design-token boundary
 - the Codefox default theme is separate from the token contract and starts from the logo's orange family plus neutral surfaces
 - Storybook is the component playground and lightweight documentation surface
+- SemVer release candidates and npm trusted publishing define the release path
 
 See [`AGENTS.md`](AGENTS.md) for repository working rules and [`CONTRIBUTING.md`](CONTRIBUTING.md) for contribution guidance.
 

@@ -26,17 +26,5 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Lint
-        run: npm run lint
-
-      - name: Typecheck
-        run: npm run typecheck
-
-      - name: Test
-        run: npm test
-
-      - name: Build
-        run: npm run build
-
-      - name: Build Storybook
-        run: npm run build-storybook
+      - name: Validate
+        run: npm run validate
