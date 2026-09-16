@@ -10,7 +10,6 @@ import {
 
 import {
   ActionBar,
-  type ActionBarGroup,
   type ActionBarItem,
   type ActionBarProps,
 } from "../action-bar/ActionBar";
@@ -95,6 +94,18 @@ function useCardActionMode(actionsRef: React.RefObject<HTMLDivElement | null>) {
   return mode;
 }
 
+function CompactActions({ actions }: { actions: readonly ReactElement[] }) {
+  return (
+    <div className="cui-card__compact-actions">
+      {actions.map((action, index) => (
+        <div className="cui-card__compact-action" key={action.key ?? `compact-action-${index}`}>
+          {action}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function OverflowMenu({ actions }: { actions: readonly ReactElement[] }) {
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
@@ -147,7 +158,8 @@ export function CardActions({ items }: CardActionsProps) {
 
   return (
     <div ref={actionsRef} className="cui-card__actions" data-mode={mode}>
-      {mode !== "overflow" ? <ActionBar items={visibleActions} /> : null}
+      {mode === "wide" ? <ActionBar items={items} /> : null}
+      {mode === "compact" ? <CompactActions actions={visibleActions} /> : null}
       <OverflowMenu actions={overflowActions} />
     </div>
   );
