@@ -6,6 +6,7 @@ import {
   useState,
   type HTMLAttributes,
   type ReactElement,
+  type RefObject,
 } from "react";
 
 import {
@@ -59,7 +60,7 @@ function flattenActions(items: readonly ActionBarItem[]): readonly ReactElement[
   return items.flatMap(item => isValidElement(item) ? [item] : item.items);
 }
 
-function useCardActionMode(actionsRef: React.RefObject<HTMLDivElement | null>) {
+function useCardActionMode(actionsRef: RefObject<HTMLDivElement | null>) {
   const [mode, setMode] = useState<CardActionMode>("wide");
 
   useLayoutEffect(() => {
