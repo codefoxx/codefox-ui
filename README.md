@@ -134,8 +134,7 @@ A group is a valid `ActionBar` item, but groups cannot contain other groups. `se
 
 `Card` is a composable surface with optional header, content, and footer sections.
 Use an explicit `CardActions` as the last direct child of `CardHeader` for header
-actions. It accepts the same typed `items` as `ActionBar` and delegates rendering,
-grouping, separators, and action responsiveness to it.
+actions. It accepts the same typed `items` contract as `ActionBar`.
 
 ```tsx
 import {
@@ -165,18 +164,26 @@ import {
 The header owns layout: normal children occupy logical start and `CardActions`
 occupies inline-end, inheriting the surrounding `dir`. Group related title and
 description content in a `div` to keep them together alongside actions. Direct
-title/description children are also supported. At narrow card widths the header
-stacks; ActionBar still responds independently to its own available width. Set
-the card's available width on its surrounding layout, without positioning actions
-or providing component styling props. An empty actions array renders no controls;
-omit `CardActions` entirely when no action area is needed.
+title/description children are also supported.
+
+Header actions stay on the same row as the title as the Card becomes narrower.
+Wide cards render the full ActionBar. At compact widths, the first two actions stay
+visible and later actions move into a vertical three-dots overflow control. At very
+narrow widths only the overflow control remains. Source order therefore acts as the
+initial responsive priority: put the actions that should remain visible longest
+first. The compact overflow policy is currently Card-owned and is intended to move
+into ActionBar once a reusable priority/overflow contract is introduced.
+
+Set the card's available width on its surrounding layout, without positioning
+actions or providing component styling props. An empty actions array renders no
+controls; omit `CardActions` entirely when no action area is needed.
 
 All sections are optional. `CardFooter` accepts arbitrary content, including an
-explicit `ActionBar` if desired; there is no footer-specific actions API. No
-overflow menu is added. `CardTitle` renders an `h3` (native attributes such as
-`aria-level` can adapt its accessible level). Card and its structural sections
-render neutral `div` elements without introducing landmarks; label a region
-explicitly with `role="region"` and `aria-labelledby` when appropriate.
+explicit `ActionBar` if desired; there is no footer-specific actions API.
+`CardTitle` renders an `h3` (native attributes such as `aria-level` can adapt its
+accessible level). Card and its structural sections render neutral `div` elements
+without introducing landmarks; label a region explicitly with `role="region"` and
+`aria-labelledby` when appropriate.
 
 The primitives forward native HTML attributes while keeping `className` and
 `style` internal, matching Button's API convention. Their props types are public
