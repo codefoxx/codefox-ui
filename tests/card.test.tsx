@@ -9,7 +9,33 @@ import {
   CardContent, CardFooter, CardActions, type CardActionsProps, type CardProps,
 } from "../src";
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+  vi.unstubAllGlobals();
+});
+
+function useMeasuredCardWidth(width: number) {
+  vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
+    x: 0,
+    y: 0,
+    width,
+    height: 100,
+    top: 0,
+    right: width,
+    bottom: 100,
+    left: 0,
+    toJSON: () => ({}),
+  });
+
+  class TestResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  }
+
+  vi.stubGlobal("ResizeObserver", TestResizeObserver);
+}
 
 describe("Card public composition", () => {
   it("renders named sections and forwards native attributes", () => {
@@ -63,6 +89,48 @@ describe("Card public composition", () => {
     expect((screen.getByRole("button", { name: "Delete" }) as HTMLButtonElement).disabled).toBe(true);
     expect(container.querySelectorAll(".cui-action-bar")).toHaveLength(1);
     expect(container.querySelectorAll('[aria-hidden="true"]')).toHaveLength(1);
+  });
+
+  it("moves actions from the end into overflow at compact card width", () => {
+    useMeasuredCardWidth(36 * 16);
+
+    const { container } = render(<Card><CardHeader>
+      <CardTitle>Project</CardTitle>
+      <CardActions items={[
+        <Button key="edit">Edit</Button>,
+        <ButtonLink key="details" href="/details">Details</ButtonLink>,
+        <Button key="delete" variant="danger">Delete</Button>,
+      ]} />
+    </CardHeader></Card>);
+
+    const actions = container.querySelector(".cui-card__actions");
+    expect(actions?.getAttribute("data-mode")).toBe("compact");
+    expect(container.querySelectorAll(".cui-card__compact-action")).toHaveLength(2);
+    expect(container.querySelector(".cui-card__compact-actions")?.textContent).toContain("Edit");
+    expect(container.querySelector(".cui-card__compact-actions")?.textContent).toContain("Details");
+    expect(container.querySelector(".cui-card__compact-actions")?.textContent).not.toContain("Delete");
+    expect(container.querySelector(".cui-card__overflow-panel")?.textContent).toContain("Delete");
+  });
+
+  it("moves every action into overflow at narrow card width", () => {
+    useMeasuredCardWidth(18 * 16);
+
+    const { container } = render(<Card><CardHeader>
+      <CardTitle>Project</CardTitle>
+      <CardActions items={[
+        <Button key="edit">Edit</Button>,
+        <ButtonLink key="details" href="/details">Details</ButtonLink>,
+        <Button key="delete" variant="danger">Delete</Button>,
+      ]} />
+    </CardHeader></Card>);
+
+    const actions = container.querySelector(".cui-card__actions");
+    expect(actions?.getAttribute("data-mode")).toBe("overflow");
+    expect(container.querySelector(".cui-card__compact-actions")).toBeNull();
+    expect(container.querySelector(".cui-action-bar")).toBeNull();
+    expect(container.querySelector(".cui-card__overflow-panel")?.textContent).toContain("Edit");
+    expect(container.querySelector(".cui-card__overflow-panel")?.textContent).toContain("Details");
+    expect(container.querySelector(".cui-card__overflow-panel")?.textContent).toContain("Delete");
   });
 
   it.each(["ltr", "rtl"])("inherits %s without per-component direction props", (dir) => {
