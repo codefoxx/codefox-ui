@@ -57,6 +57,17 @@
   inline-size: auto;
 }
 
+.cui-card__compact-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cui-space-sm);
+}
+
+.cui-card__compact-action {
+  display: inline-flex;
+  align-items: center;
+}
+
 .cui-card__overflow {
   position: relative;
   flex: none;
