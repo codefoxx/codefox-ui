@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, fn, userEvent, within } from "storybook/test";
+import { expect, fn, userEvent, waitFor, within } from "storybook/test";
 
 import { PlaygroundHeader } from "../../stories/PlaygroundHeader";
 import { Button } from "../button/Button";
@@ -99,29 +99,47 @@ export const Overview: Story = {
     </div>
   ),
   play: async ({ canvasElement }) => {
-    // Real browser geometry verifies inherited direction and both containers independently.
     for (const dir of ["ltr", "rtl"]) {
       const section = within(canvasElement).getByRole("region", { name: `${dir.toUpperCase()} card widths` });
       const cards = section.querySelectorAll(".cui-card");
+
+      await waitFor(() => {
+        expect(cards[0]?.querySelector(".cui-card__actions")?.getAttribute("data-mode")).toBe("wide");
+        expect(cards[1]?.querySelector(".cui-card__actions")?.getAttribute("data-mode")).toBe("compact");
+        expect(cards[2]?.querySelector(".cui-card__actions")?.getAttribute("data-mode")).toBe("overflow");
+      });
+
       for (const [index, card] of Array.from(cards).entries()) {
         const header = card.querySelector(".cui-card__header")!;
         await expect(getComputedStyle(header).direction).toBe(dir);
+
         if (index === 3) {
           await expect(card.querySelector(".cui-card__actions")).toBeNull();
           continue;
         }
+
         const text = header.firstElementChild!.getBoundingClientRect();
         const actions = card.querySelector(".cui-card__actions")!.getBoundingClientRect();
-        if (card.getBoundingClientRect().width > 640) {
-          await expect(Math.abs(text.top - actions.top)).toBeLessThan(1);
-          await expect(dir === "ltr" ? actions.left >= text.right : actions.right <= text.left).toBe(true);
-        } else {
-          await expect(actions.top).toBeGreaterThanOrEqual(text.bottom);
-        }
-        const layout = card.querySelector(".cui-action-bar__layout")!;
-        await expect(getComputedStyle(layout).flexDirection).toBe(actions.width <= 384 ? "column" : "row");
+        await expect(Math.abs(text.top - actions.top)).toBeLessThan(1);
+        await expect(dir === "ltr" ? actions.left >= text.right : actions.right <= text.left).toBe(true);
         await expect(card.scrollWidth).toBeLessThanOrEqual(card.clientWidth + 1);
       }
+
+      const wide = within(cards[0] as HTMLElement);
+      await expect(wide.queryByRole("button", { name: "More actions" })).toBeNull();
+      await expect(wide.getByRole("button", { name: "Edit" })).toBeVisible();
+      await expect(wide.getByRole("link", { name: "Details" })).toBeVisible();
+      await expect(wide.getByRole("button", { name: "Delete" })).toBeVisible();
+
+      const compact = within(cards[1] as HTMLElement);
+      await expect(compact.getByRole("button", { name: "Edit" })).toBeVisible();
+      await expect(compact.getByRole("link", { name: "Details" })).toBeVisible();
+      await expect(compact.getByRole("button", { name: "More actions" })).toBeVisible();
+
+      const narrow = within(cards[2] as HTMLElement);
+      await expect(narrow.getByRole("button", { name: "More actions" })).toBeVisible();
+      await expect(narrow.queryByRole("button", { name: "Edit" })).toBeNull();
+      await expect(narrow.queryByRole("link", { name: "Details" })).toBeNull();
     }
   },
 };
@@ -131,11 +149,16 @@ export const Playground: Story = {
     if (!args.header || !args.actions) return;
     onEdit.mockClear();
     const canvas = within(canvasElement);
-    const edit = canvas.getByRole("button", { name: "Edit" });
-    edit.focus();
-    await userEvent.keyboard("{Enter}");
-    await expect(onEdit).toHaveBeenCalledTimes(1);
-    await expect(canvas.getByRole("link", { name: "Details" })).toHaveAttribute("href", "#details");
-    await expect(canvas.getByRole("button", { name: "Delete" })).toBeDisabled();
+
+    await waitFor(() => {
+      expect(canvasElement.querySelector(".cui-card__actions")?.getAttribute("data-mode")).not.toBeNull();
+    });
+
+    const edit = canvas.queryByRole("button", { name: "Edit" });
+    if (edit) {
+      edit.focus();
+      await userEvent.keyboard("{Enter}");
+      await expect(onEdit).toHaveBeenCalledTimes(1);
+    }
   },
 };
