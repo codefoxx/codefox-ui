@@ -130,6 +130,69 @@ const actions = [
 
 A group is a valid `ActionBar` item, but groups cannot contain other groups. `separator: true` inserts a Codefox UI-owned separator only between group actions. The bar inherits `dir="ltr"` / `dir="rtl"` from its surroundings and uses component-width responsiveness rather than viewport-only media queries. `ActionBar` is a layout primitive, not an ARIA `toolbar`; the contained controls keep their own native semantics.
 
+### Card
+
+`Card` is a composable surface with optional header, content, and footer sections.
+Use an explicit `CardActions` as the last direct child of `CardHeader` for header
+actions. It accepts the same typed `items` contract as `ActionBar`.
+
+```tsx
+import {
+  Button, Card, CardHeader, CardTitle, CardDescription,
+  CardActions, CardContent, CardFooter,
+} from "@codefoxpro/ui";
+
+<Card>
+  <CardHeader>
+    <div>
+      <CardTitle>Project</CardTitle>
+      <CardDescription>Manage the project details.</CardDescription>
+    </div>
+    <CardActions items={[
+      <Button key="edit">Edit</Button>,
+      { type: "group", separator: true, items: [
+        <Button key="duplicate" variant="secondary">Duplicate</Button>,
+        <Button key="delete" variant="danger">Delete</Button>,
+      ] },
+    ]} />
+  </CardHeader>
+  <CardContent>Any application content</CardContent>
+  <CardFooter><small>Updated recently</small></CardFooter>
+</Card>
+```
+
+The header owns layout: normal children occupy logical start and `CardActions`
+occupies inline-end, inheriting the surrounding `dir`. Group related title and
+description content in a `div` to keep them together alongside actions. Direct
+title/description children are also supported.
+
+Header actions stay on the same row as the title as the Card becomes narrower.
+Wide cards render the full ActionBar. At compact widths, the first two actions stay
+visible and later actions move into a vertical three-dots overflow control. At very
+narrow widths only the overflow control remains. Source order therefore acts as the
+initial responsive priority: put the actions that should remain visible longest
+first. The compact overflow policy is currently Card-owned and is intended to move
+into ActionBar once a reusable priority/overflow contract is introduced.
+
+Set the card's available width on its surrounding layout, without positioning
+actions or providing component styling props. An empty actions array renders no
+controls; omit `CardActions` entirely when no action area is needed.
+
+All sections are optional. `CardFooter` accepts arbitrary content, including an
+explicit `ActionBar` if desired; there is no footer-specific actions API.
+`CardTitle` renders an `h3` (native attributes such as `aria-level` can adapt its
+accessible level). Card and its structural sections render neutral `div` elements
+without introducing landmarks; label a region explicitly with `role="region"` and
+`aria-labelledby` when appropriate.
+
+The primitives forward native HTML attributes while keeping `className` and
+`style` internal, matching Button's API convention. Their props types are public
+exports, including `CardActionsProps`. Colors, spacing, and radii consume the
+existing semantic `--cui-*` tokens. No additional dependencies or stylesheet setup
+are required. Storybook **Primitives/Card** provides a fixed LTR/RTL Overview at
+multiple widths and a Playground with controls for width, direction, text, and
+optional sections/actions.
+
 ## Development
 
 Requires Node.js 22 or newer.
